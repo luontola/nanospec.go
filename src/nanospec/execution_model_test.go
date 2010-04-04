@@ -1,0 +1,76 @@
+// Copyright © 2010 Esko Luontola <www.orfjackal.net>
+// This software is released under the Apache License 2.0.
+// The license text is at http://www.apache.org/licenses/LICENSE-2.0
+
+package nanospec
+
+import (
+	"testing"
+)
+
+
+func Test__Sibling_specs_are_executed(t *testing.T) {
+	tt := TT(t)
+	spy := ""
+
+	NanoSpec(t, func(c Context) {
+		c.Specify("a", func() {
+			spy += "a,"
+		})
+		c.Specify("b", func() {
+			spy += "b,"
+		})
+	})
+
+	tt.AssertEquals("a,b,", spy)
+}
+
+func Test__Nested_specs_are_executed(t *testing.T) {
+	tt := TT(t)
+	spy := ""
+
+	NanoSpec(t, func(c Context) {
+		c.Specify("a", func() {
+			spy += "a,"
+
+			c.Specify("aa", func() {
+				spy += "aa,"
+			})
+		})
+	})
+
+	tt.AssertEquals("a,aa,", spy)
+}
+
+func Test__Nested_sibling_specs_are_executed_in_isolation(t *testing.T) {
+	tt := TT(t)
+	spy := ""
+
+	NanoSpec(t, func(c Context) {
+		c.Specify("a", func() {
+			spy += "a,"
+
+			c.Specify("aa", func() {
+				spy += "aa,"
+			})
+			c.Specify("ab", func() {
+				spy += "ab,"
+			})
+		})
+		c.Specify("b", func() {
+			spy += "b,"
+
+			c.Specify("ba", func() {
+				spy += "ba,"
+			})
+			c.Specify("bb", func() {
+				spy += "bb,"
+			})
+			c.Specify("bc", func() {
+				spy += "bc,"
+			})
+		})
+	})
+
+	tt.AssertEquals("a,aa,a,ab,b,ba,b,bb,b,bc,", spy)
+}
