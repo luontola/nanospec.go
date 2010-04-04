@@ -16,47 +16,45 @@ func NanoSpec(gotest *testing.T, spec func(Context)) {
 }
 
 type Context interface {
-	Specify(name string, body func())
+	Specify(name string, closure func())
 }
 
 
 type runContext struct {
+	rootClosure  func(Context)
 	root         *aSpec
 	current      *aSpec
 	backtracking bool
 }
 
 func newContext(gotest *testing.T, spec func(Context)) *runContext {
-	c := &runContext{}
-	root := newSpec(nil, "<root>", func() { spec(c) })
-	c.root = root
-	c.current = root
-	return c
+	root := newSpec(nil, "<root>")
+	return &runContext{spec, root, root, false}
 }
 
 func (this *runContext) Run() {
 	safetyLimit := 10000 // just in case this program gets stuck in an infinite loop during development
 	for this.root.ShouldExecute() && safetyLimit > 0 {
 		this.backtracking = false
-		this.root.Execute()
+		this.root.Execute(func() { this.rootClosure(this) })
 		safetyLimit--
 	}
 }
 
-func (this *runContext) Specify(name string, body func()) {
-	this.enterSpec(name, body)
-	this.processSpec()
+func (this *runContext) Specify(name string, closure func()) {
+	this.enterSpec(name)
+	this.processSpec(closure)
 	this.exitSpec()
 }
 
-func (this *runContext) enterSpec(name string, body func()) {
-	child := this.current.EnterChild(name, body)
+func (this *runContext) enterSpec(name string) {
+	child := this.current.EnterChild(name)
 	this.current = child
 }
 
-func (this *runContext) processSpec() {
+func (this *runContext) processSpec(closure func()) {
 	if !this.backtracking && this.current.ShouldExecute() {
-		this.current.Execute()
+		this.current.Execute(closure)
 		this.backtracking = true
 	}
 }
@@ -69,23 +67,24 @@ func (this *runContext) exitSpec() {
 type aSpec struct {
 	Parent                *aSpec
 	name                  string
-	body                  func()
 	children              *vector.Vector
 	childrenSeenOnThisRun int
 	hasBeenExecuted       bool
 }
 
-func newSpec(parent *aSpec, name string, body func()) *aSpec {
-	return &aSpec{parent, name, body, new(vector.Vector), 0, false}
+func newSpec(parent *aSpec, name string) *aSpec {
+	return &aSpec{parent, name, new(vector.Vector), 0, false}
 }
 
 func (this *aSpec) ShouldExecute() bool {
 	return !this.hasBeenExecuted
 }
 
-func (this *aSpec) Execute() {
+// The closure of this spec must be pass as a parameter,
+// to make sure it's fresh; no side-effects from previous runs.
+func (this *aSpec) Execute(closure func()) {
 	this.childrenSeenOnThisRun = 0
-	this.body()
+	closure()
 	this.hasBeenExecuted = this.allChildrenHaveBeenExecuted()
 }
 
@@ -99,12 +98,12 @@ func (this *aSpec) allChildrenHaveBeenExecuted() bool {
 	return true
 }
 
-func (this *aSpec) EnterChild(name string, body func()) *aSpec {
+func (this *aSpec) EnterChild(name string) *aSpec {
 	this.childrenSeenOnThisRun++
 	isUnseen := this.childrenSeenOnThisRun > this.children.Len()
 
 	if isUnseen {
-		child := newSpec(this, name, body)
+		child := newSpec(this, name)
 		this.children.Push(child)
 		return child
 	}

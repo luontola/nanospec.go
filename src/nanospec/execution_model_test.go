@@ -5,6 +5,7 @@
 package nanospec
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -73,4 +74,24 @@ func Test__Nested_sibling_specs_are_executed_in_isolation(t *testing.T) {
 	})
 
 	tt.AssertEquals("a,aa,a,ab,b,ba,b,bb,b,bc,", spy)
+}
+
+func Test__Variables_declared_inside_specs_are_isolated_from_side_effects(t *testing.T) {
+	tt := TT(t)
+	spy := ""
+
+	NanoSpec(t, func(c Context) {
+		common := 0
+
+		c.Specify("a", func() {
+			common++
+			spy += fmt.Sprintf("%v,", common)
+		})
+		c.Specify("b", func() {
+			common++
+			spy += fmt.Sprintf("%v,", common)
+		})
+	})
+
+	tt.AssertEquals("1,1,", spy)
 }
