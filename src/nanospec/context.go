@@ -5,8 +5,8 @@
 package nanospec
 
 import (
-	"testing"
 	"container/vector"
+	"testing"
 )
 
 
@@ -80,7 +80,7 @@ func (this *aSpec) ShouldExecute() bool {
 	return !this.hasBeenExecuted
 }
 
-// The closure of this spec must be pass as a parameter,
+// The closure of this spec must be passed as a parameter,
 // to make sure it's fresh; no side-effects from previous runs.
 func (this *aSpec) Execute(closure func()) {
 	this.childrenSeenOnThisRun = 0
@@ -100,15 +100,15 @@ func (this *aSpec) allChildrenHaveBeenExecuted() bool {
 
 func (this *aSpec) EnterChild(name string) *aSpec {
 	this.childrenSeenOnThisRun++
-	isUnseen := this.childrenSeenOnThisRun > this.children.Len()
+	childIndex := this.childrenSeenOnThisRun - 1
 
+	isUnseen := childIndex >= this.children.Len()
 	if isUnseen {
 		child := newSpec(this, name)
 		this.children.Push(child)
 		return child
 	}
 
-	index := this.childrenSeenOnThisRun - 1
-	child := this.children.At(index).(*aSpec)
+	child := this.children.At(childIndex).(*aSpec)
 	return child
 }
