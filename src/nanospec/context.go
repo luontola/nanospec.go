@@ -69,7 +69,7 @@ type aSpec struct {
 	name                  string
 	children              *vector.Vector
 	childrenSeenOnThisRun int
-	hasBeenExecuted       bool
+	hasBeenFullyExecuted  bool
 }
 
 func newSpec(parent *aSpec, name string) *aSpec {
@@ -77,7 +77,7 @@ func newSpec(parent *aSpec, name string) *aSpec {
 }
 
 func (this *aSpec) ShouldExecute() bool {
-	return !this.hasBeenExecuted
+	return !this.hasBeenFullyExecuted
 }
 
 // The closure of this spec must be passed as a parameter,
@@ -85,13 +85,13 @@ func (this *aSpec) ShouldExecute() bool {
 func (this *aSpec) Execute(closure func()) {
 	this.childrenSeenOnThisRun = 0
 	closure()
-	this.hasBeenExecuted = this.allChildrenHaveBeenExecuted()
+	this.hasBeenFullyExecuted = this.allChildrenHaveBeenExecuted()
 }
 
 func (this *aSpec) allChildrenHaveBeenExecuted() bool {
 	for _, v := range *this.children {
 		child := v.(*aSpec)
-		if !child.hasBeenExecuted {
+		if !child.hasBeenFullyExecuted {
 			return false
 		}
 	}
