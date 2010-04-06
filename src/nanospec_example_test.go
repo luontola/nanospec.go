@@ -24,7 +24,7 @@ func StackSpec(c Context) {
 		})
 	})
 
-	c.Specify("When elements are pushed to a stack", func() {
+	c.Specify("When elements are pushed onto a stack", func() {
 		stack.Push("first push")
 		stack.Push("last push")
 
