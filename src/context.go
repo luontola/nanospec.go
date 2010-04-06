@@ -18,7 +18,7 @@ func Run(gotest *testing.T, spec func(Context)) {
 
 type Context interface {
 	Specify(name string, closure func())
-	Expect(actual interface{}) Expectation
+	Expect(actual interface{}) *Expectation
 	Errorf(format string, args ...interface{})
 }
 
@@ -67,7 +67,7 @@ func (this *runContext) exitSpec() {
 	this.current = this.current.Parent
 }
 
-func (this *runContext) Expect(actual interface{}) Expectation {
+func (this *runContext) Expect(actual interface{}) *Expectation {
 	reporter := newSpecReporter(this.out, this.current, callerLocation())
 	return newExpectation(actual, reporter)
 }
