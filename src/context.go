@@ -10,7 +10,7 @@ import (
 )
 
 
-func NanoSpec(gotest *testing.T, spec func(Context)) {
+func Run(gotest *testing.T, spec func(Context)) {
 	c := newContext(gotest, spec)
 	c.Run()
 }

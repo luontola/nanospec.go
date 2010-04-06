@@ -14,7 +14,7 @@ func Test__Sibling_specs_are_executed(t *testing.T) {
 	tt := TT(t)
 	spy := ""
 
-	NanoSpec(t, func(c Context) {
+	Run(t, func(c Context) {
 		c.Specify("a", func() {
 			spy += "a,"
 		})
@@ -30,7 +30,7 @@ func Test__Nested_specs_are_executed(t *testing.T) {
 	tt := TT(t)
 	spy := ""
 
-	NanoSpec(t, func(c Context) {
+	Run(t, func(c Context) {
 		c.Specify("a", func() {
 			spy += "a,"
 
@@ -47,7 +47,7 @@ func Test__Nested_sibling_specs_are_executed_in_isolation(t *testing.T) {
 	tt := TT(t)
 	spy := ""
 
-	NanoSpec(t, func(c Context) {
+	Run(t, func(c Context) {
 		c.Specify("a", func() {
 			spy += "a,"
 
@@ -80,7 +80,7 @@ func Test__Variables_declared_inside_specs_are_isolated_from_side_effects(t *tes
 	tt := TT(t)
 	spy := ""
 
-	NanoSpec(t, func(c Context) {
+	Run(t, func(c Context) {
 		common := 0
 
 		c.Specify("a", func() {
