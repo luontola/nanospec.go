@@ -17,10 +17,12 @@ func NanoSpec(gotest *testing.T, spec func(Context)) {
 
 type Context interface {
 	Specify(name string, closure func())
+	Expect(actual interface{}) Expectation
 }
 
 
 type runContext struct {
+	gotest       *testing.T
 	rootClosure  func(Context)
 	root         *aSpec
 	current      *aSpec
@@ -29,7 +31,7 @@ type runContext struct {
 
 func newContext(gotest *testing.T, spec func(Context)) *runContext {
 	root := newSpec(nil, "<root>")
-	return &runContext{spec, root, root, false}
+	return &runContext{gotest, spec, root, root, false}
 }
 
 func (this *runContext) Run() {
@@ -61,6 +63,10 @@ func (this *runContext) processSpec(closure func()) {
 
 func (this *runContext) exitSpec() {
 	this.current = this.current.Parent
+}
+
+func (this *runContext) Expect(actual interface{}) Expectation {
+	return newExpectation(actual, newReporter(this.gotest, callerLocation()))
 }
 
 

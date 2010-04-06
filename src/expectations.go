@@ -9,10 +9,6 @@ import (
 )
 
 
-type Reporter interface {
-	Error(message string)
-}
-
 type Expectation struct {
 	actual   interface{}
 	reporter Reporter
