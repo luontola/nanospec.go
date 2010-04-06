@@ -70,12 +70,3 @@ func Test__Expect_Satisfies(t *testing.T) {
 	newExpectation(actual, r).Satisfies(len(actual) == 4)
 	tt.AssertEquals("'foo' should satisfy the contract", r.Message)
 }
-
-
-type DummyReporter struct {
-	Message string
-}
-
-func (this *DummyReporter) Error(message string) {
-	this.Message = message
-}

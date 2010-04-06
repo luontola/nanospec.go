@@ -22,3 +22,9 @@ func (this *TestTool) AssertEquals(expected, actual interface{}) {
 		this.t.Errorf("Expected '%v', got '%v'", expected, actual)
 	}
 }
+
+func (this *TestTool) AssertSatisfies(contract bool, actual interface{}) {
+	if !contract {
+		this.t.Errorf("Not satisfied by '%v'", actual)
+	}
+}

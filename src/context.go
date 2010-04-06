@@ -22,16 +22,16 @@ type Context interface {
 
 
 type runContext struct {
-	gotest       *testing.T
+	out          Reporter
 	rootClosure  func(Context)
 	root         *aSpec
 	current      *aSpec
 	backtracking bool
 }
 
-func newContext(gotest *testing.T, spec func(Context)) *runContext {
+func newContext(t *testing.T, spec func(Context)) *runContext {
 	root := newSpec(nil, "<root>")
-	return &runContext{gotest, spec, root, root, false}
+	return &runContext{gotestReporter{t}, spec, root, root, false}
 }
 
 func (this *runContext) Run() {
@@ -66,13 +66,14 @@ func (this *runContext) exitSpec() {
 }
 
 func (this *runContext) Expect(actual interface{}) Expectation {
-	return newExpectation(actual, newReporter(this.gotest, callerLocation()))
+	reporter := newSpecReporter(this.out, this.current, callerLocation())
+	return newExpectation(actual, reporter)
 }
 
 
 type aSpec struct {
 	Parent                *aSpec
-	name                  string
+	Name                  string
 	children              *vector.Vector
 	childrenSeenOnThisRun int
 	hasBeenFullyExecuted  bool
