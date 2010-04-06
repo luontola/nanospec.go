@@ -5,6 +5,8 @@
 package nanospec
 
 import (
+	"fmt"
+	"os"
 	"testing"
 )
 
@@ -69,4 +71,27 @@ func Test__Expect_Satisfies(t *testing.T) {
 	r = new(DummyReporter)
 	newExpectation(actual, r).Satisfies(len(actual) == 4)
 	tt.AssertEquals("'foo' should satisfy the contract", r.Message)
+}
+
+func Test__Expect_Matches(t *testing.T) {
+	tt := TT(t)
+
+	actual := "foo"
+
+	r := new(DummyReporter)
+	newExpectation(actual, r).Matches(HasLength(3))
+	tt.AssertEquals("", r.Message)
+
+	r = new(DummyReporter)
+	newExpectation(actual, r).Matches(HasLength(4))
+	tt.AssertEquals("'foo' should have length 4", r.Message)
+}
+
+func HasLength(length int) Matcher {
+	return func(actual interface{}) os.Error {
+		if len(actual.(string)) != length {
+			return os.ErrorString(fmt.Sprintf("'%v' should have length %v", actual, length))
+		}
+		return nil
+	}
 }

@@ -6,6 +6,7 @@ package nanospec
 
 import (
 	"fmt"
+	"os"
 )
 
 
@@ -47,3 +48,12 @@ func (this *Expectation) Satisfies(contract bool) {
 		this.reporter.Error(fmt.Sprintf("'%v' should satisfy the contract", this.actual))
 	}
 }
+
+func (this *Expectation) Matches(matcher Matcher) {
+	err := matcher(this.actual)
+	if err != nil {
+		this.reporter.Error(err.String())
+	}
+}
+
+type Matcher func(actual interface{}) os.Error
