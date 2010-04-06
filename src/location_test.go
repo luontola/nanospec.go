@@ -20,3 +20,11 @@ func Test__Get_location_of_calling_method(t *testing.T) {
 func fakeExpectationMethod() string {
 	return callerLocation()
 }
+
+func Test__Get_function_name_from_function_literal(t *testing.T) {
+	tt := TT(t)
+
+	name := functionName(fakeExpectationMethod)
+
+	tt.AssertEquals("nanospec.fakeExpectationMethod", name)
+}

@@ -30,7 +30,7 @@ type runContext struct {
 }
 
 func newContext(t *testing.T, spec func(Context)) *runContext {
-	root := newSpec(nil, "<root>")
+	root := newSpec(nil, functionName(spec))
 	return &runContext{gotestReporter{t}, spec, root, root, false}
 }
 

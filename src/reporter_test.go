@@ -13,7 +13,7 @@ import (
 func Test__The_names_of_parent_specs_are_reported_on_failure(t *testing.T) {
 	tt := TT(t)
 
-	root := newSpec(nil, "<root>")
+	root := newSpec(nil, "FooSpec")
 	parent := newSpec(root, "When foo")
 	current := newSpec(parent, "Then bar")
 
@@ -21,8 +21,9 @@ func Test__The_names_of_parent_specs_are_reported_on_failure(t *testing.T) {
 	newSpecReporter(r, current, "foo.go:42").Error("error message")
 
 	tt.AssertEquals(trim(`
-- When foo
-  - Then bar
+FooSpec
+  - When foo
+    - Then bar
 
 *** error message
     at foo.go:42

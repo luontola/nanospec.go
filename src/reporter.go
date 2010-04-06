@@ -27,17 +27,20 @@ func newSpecReporter(out Reporter, current *aSpec, location string) Reporter {
 
 func (this specReporter) Error(message string) {
 	context := ""
-	for spec := this.current; spec.Parent != nil; spec = spec.Parent {
-		context = fmt.Sprintf("%v- %v\n%v", indent(spec), spec.Name, context)
+	for spec := this.current; spec != nil; spec = spec.Parent {
+		context = indent(spec) + spec.Name + "\n" + context
 	}
 	this.out.Error(fmt.Sprintf("%v\n*** %v\n    at %v\n", context, message, this.location))
 }
 
 func indent(spec *aSpec) string {
-	s := ""
-	for spec.Parent.Parent != nil {
+	if spec.Parent == nil {
+		return ""
+	}
+	s := "- "
+	for spec.Parent != nil {
 		spec = spec.Parent
-		s += "  "
+		s = "  " + s
 	}
 	return s
 }

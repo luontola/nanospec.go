@@ -7,6 +7,7 @@ package nanospec
 import (
 	"fmt"
 	"path"
+	"reflect"
 	"runtime"
 )
 
@@ -23,4 +24,12 @@ func callerLocation() string {
 func filename(fullpath string) string {
 	_, file := path.Split(fullpath)
 	return file
+}
+
+func functionName(function interface{}) string {
+	fval := reflect.NewValue(function).(*reflect.FuncValue)
+	if f := runtime.FuncForPC(fval.Get()); f != nil {
+		return f.Name()
+	}
+	return "<unknown function>"
 }
