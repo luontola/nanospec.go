@@ -38,7 +38,7 @@ func indent(spec *aSpec) string {
 		return ""
 	}
 	s := "- "
-	for spec.Parent != nil {
+	for spec.Parent.Parent != nil {
 		spec = spec.Parent
 		s = "  " + s
 	}

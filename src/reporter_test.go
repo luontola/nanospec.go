@@ -22,8 +22,8 @@ func Test__The_names_of_parent_specs_are_reported_on_failure(t *testing.T) {
 
 	tt.AssertEquals(trim(`
 FooSpec
-  - When foo
-    - Then bar
+- When foo
+  - Then bar
 
 *** error message
     at foo.go:42
