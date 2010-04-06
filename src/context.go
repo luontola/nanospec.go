@@ -6,6 +6,7 @@ package nanospec
 
 import (
 	"container/vector"
+	"fmt"
 	"testing"
 )
 
@@ -18,6 +19,7 @@ func Run(gotest *testing.T, spec func(Context)) {
 type Context interface {
 	Specify(name string, closure func())
 	Expect(actual interface{}) Expectation
+	Errorf(format string, args ...interface{})
 }
 
 
@@ -70,6 +72,10 @@ func (this *runContext) Expect(actual interface{}) Expectation {
 	return newExpectation(actual, reporter)
 }
 
+func (this *runContext) Errorf(format string, args ...interface{}) {
+	reporter := newSpecReporter(this.out, this.current, callerLocation())
+	reporter.Error(fmt.Sprintf(format, args))
+}
 
 type aSpec struct {
 	Parent                *aSpec
