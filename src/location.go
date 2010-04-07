@@ -12,10 +12,8 @@ import (
 )
 
 
-const runtimeCallerBugfix = 1
-
 func callerLocation() string {
-	if _, file, line, ok := runtime.Caller(2 + runtimeCallerBugfix); ok {
+	if _, file, line, ok := runtime.Caller(2); ok {
 		return fmt.Sprintf("%v:%v", filename(file), line)
 	}
 	return "<unknown file>"
