@@ -20,6 +20,10 @@ Have a look at [nanospec_example_test.go] and how [GoSpec](http://github.com/orf
 Version History
 ---------------
 
+**1.x.x (2010-xx-xx)**
+
+- ...
+
 **1.0.0 (2010-04-29)**
 
 - Initial release
