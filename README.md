@@ -12,7 +12,9 @@ For discussion, use the [golang-nuts mailing list](http://groups.google.com/grou
 Quick Start
 -----------
 
-Have a look at how [GoSpec](http://github.com/orfjackal/gospec) uses this framework and read the source code. This framework is not meant for beginners, but for testing framework developers. This can be used as a library in other testing frameworks for Go, or as an reference implementation of how to create a similar testing framework for some other language.
+Have a look at [nanospec_example_test.go] and how [GoSpec](http://github.com/orfjackal/gospec) uses this framework and read the source code. This framework is not meant for beginners, but for testing framework developers. This can be used as a library in other testing frameworks for Go, or as an reference implementation of how to create a similar testing framework for some other language.
+
+[nanospec_example_test.go]: http://github.com/orfjackal/nanospec.go/blob/nanospec.go-1.0.0/src/nanospec_example_test.go
 
 
 Version History
