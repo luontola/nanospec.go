@@ -20,7 +20,7 @@ Have a look at [nanospec_example_test.go] and how [GoSpec](http://github.com/orf
 Version History
 ---------------
 
-**1.x.x (2010-xx-xx)**
+**1.0.1 (2010-05-11)**
 
 - Changed reporting format: show full file paths, have expected and actual values on different lines
 
