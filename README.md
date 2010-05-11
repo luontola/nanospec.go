@@ -22,7 +22,7 @@ Version History
 
 **1.x.x (2010-xx-xx)**
 
-- ...
+- Changed reporting format: show full file paths, have expected and actual values on different lines
 
 **1.0.0 (2010-04-29)**
 
