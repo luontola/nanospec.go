@@ -6,7 +6,6 @@ package nanospec
 
 import (
 	"fmt"
-	"path"
 	"reflect"
 	"runtime"
 )
@@ -14,14 +13,9 @@ import (
 
 func callerLocation() string {
 	if _, file, line, ok := runtime.Caller(2); ok {
-		return fmt.Sprintf("%v:%v", filename(file), line)
+		return fmt.Sprintf("%v:%v", file, line)
 	}
 	return "<unknown file>"
-}
-
-func filename(fullpath string) string {
-	_, file := path.Split(fullpath)
-	return file
 }
 
 func functionName(function interface{}) string {

@@ -5,6 +5,7 @@
 package nanospec
 
 import (
+	"strings"
 	"testing"
 )
 
@@ -12,9 +13,10 @@ import (
 func Test__Get_location_of_calling_method(t *testing.T) {
 	tt := TT(t)
 
-	location := fakeExpectationMethod() // line 15
+	location := fakeExpectationMethod() // line 16
 
-	tt.AssertEquals("location_test.go:15", location)
+	parts := strings.Split(location, "/", 0)
+	tt.AssertEquals("location_test.go:16", parts[len(parts)-1])
 }
 
 func fakeExpectationMethod() string {
