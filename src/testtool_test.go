@@ -19,7 +19,7 @@ type TestTool struct {
 
 func (this *TestTool) AssertEquals(expected, actual interface{}) {
 	if expected != actual {
-		this.t.Errorf("Expected '%v', got '%v'", expected, actual)
+		this.t.Errorf("> Expected:\n%v\n> Actual:\n%v", expected, actual)
 	}
 }
 

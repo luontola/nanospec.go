@@ -21,31 +21,31 @@ func newExpectation(actual interface{}, reporter Reporter) *Expectation {
 
 func (this *Expectation) Equals(expected interface{}) {
 	if this.actual != expected {
-		this.reporter.Error(fmt.Sprintf("'%v' should equal '%v'", this.actual, expected))
+		this.reporter.Error(fmt.Sprintf("Expected: equals '%v'\n\tgot: '%v'", expected, this.actual))
 	}
 }
 
 func (this *Expectation) NotEquals(expected interface{}) {
 	if this.actual == expected {
-		this.reporter.Error(fmt.Sprintf("'%v' should NOT equal '%v'", this.actual, expected))
+		this.reporter.Error(fmt.Sprintf("Expected: NOT equals '%v'\n\tgot: '%v'", expected, this.actual))
 	}
 }
 
 func (this *Expectation) IsTrue() {
 	if this.actual.(bool) != true {
-		this.reporter.Error(fmt.Sprintf("'%v' should be true", this.actual))
+		this.reporter.Error(fmt.Sprintf("Expected: is true\n\tgot: '%v'", this.actual))
 	}
 }
 
 func (this *Expectation) IsFalse() {
 	if this.actual.(bool) != false {
-		this.reporter.Error(fmt.Sprintf("'%v' should be false", this.actual))
+		this.reporter.Error(fmt.Sprintf("Expected: is false\n\tgot: '%v'", this.actual))
 	}
 }
 
 func (this *Expectation) Satisfies(contract bool) {
 	if !contract {
-		this.reporter.Error(fmt.Sprintf("'%v' should satisfy the contract", this.actual))
+		this.reporter.Error(fmt.Sprintf("Expected: satisfies the contract\n\tgot: '%v'", this.actual))
 	}
 }
 
