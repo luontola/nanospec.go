@@ -15,7 +15,7 @@ func Test__Get_location_of_calling_method(t *testing.T) {
 
 	location := fakeExpectationMethod() // line 16
 
-	parts := strings.Split(location, "/", 0)
+	parts := strings.Split(location, "/", -1)
 	tt.AssertEquals("location_test.go:16", parts[len(parts)-1])
 }
 
