@@ -25,20 +25,20 @@ func StackSpec(c Context) {
 	})
 
 	c.Specify("When elements are pushed onto a stack", func() {
-		stack.Push("first push")
-		stack.Push("last push")
+		stack.Push("pushed first")
+		stack.Push("pushed last")
 
 		c.Specify("then it contains some elements", func() {
 			c.Expect(stack.Len()).NotEquals(0)
 		})
 		c.Specify("the element pushed last is popped first", func() {
-			x := stack.Pop()
-			c.Expect(x).Equals("last push")
+			poppedFirst := stack.Pop()
+			c.Expect(poppedFirst).Equals("pushed last")
 		})
 		c.Specify("the element pushed first is popped last", func() {
 			stack.Pop()
-			x := stack.Pop()
-			c.Expect(x).Equals("first push")
+			poppedLast := stack.Pop()
+			c.Expect(poppedLast).Equals("pushed first")
 		})
 	})
 }
