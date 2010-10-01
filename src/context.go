@@ -74,7 +74,7 @@ func (this *runContext) Expect(actual interface{}) *Expectation {
 
 func (this *runContext) Errorf(format string, args ...interface{}) {
 	reporter := newSpecReporter(this.out, this.current, callerLocation())
-	reporter.Error(fmt.Sprintf(format, args))
+	reporter.Error(fmt.Sprintf(format, args...))
 }
 
 type aSpec struct {
