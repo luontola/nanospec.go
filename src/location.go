@@ -19,8 +19,8 @@ func callerLocation() string {
 }
 
 func functionName(function interface{}) string {
-	fval := reflect.NewValue(function).(*reflect.FuncValue)
-	if f := runtime.FuncForPC(fval.Get()); f != nil {
+	fval := reflect.NewValue(function)
+	if f := runtime.FuncForPC(fval.Pointer()); f != nil {
 		return f.Name()
 	}
 	return "<unknown function>"
