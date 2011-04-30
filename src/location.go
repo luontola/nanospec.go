@@ -19,7 +19,7 @@ func callerLocation() string {
 }
 
 func functionName(function interface{}) string {
-	fval := reflect.NewValue(function)
+	fval := reflect.ValueOf(function)
 	if f := runtime.FuncForPC(fval.Pointer()); f != nil {
 		return f.Name()
 	}
