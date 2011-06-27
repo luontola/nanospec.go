@@ -90,7 +90,7 @@ func Test__Expect_Matches(t *testing.T) {
 func HasLength(length int) Matcher {
 	return func(actual interface{}) os.Error {
 		if len(actual.(string)) != length {
-			return os.ErrorString(fmt.Sprintf("Expected: has length %v\n\tgot: '%v'", length, actual))
+			return os.NewError(fmt.Sprintf("Expected: has length %v\n\tgot: '%v'", length, actual))
 		}
 		return nil
 	}
