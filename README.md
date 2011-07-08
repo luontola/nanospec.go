@@ -22,7 +22,7 @@ Version History
 
 **1.x.x (2011-xx-xx)**
 
-- ...
+- Upgraded to Go weekly.2011-07-07
 
 **1.0.7 (2011-06-27)**
 
