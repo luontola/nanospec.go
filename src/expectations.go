@@ -9,7 +9,6 @@ import (
 	"os"
 )
 
-
 type Expectation struct {
 	actual   interface{}
 	reporter Reporter

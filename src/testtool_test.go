@@ -8,7 +8,6 @@ import (
 	"testing"
 )
 
-
 func TT(t *testing.T) *TestTool {
 	return &TestTool{t}
 }

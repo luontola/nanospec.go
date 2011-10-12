@@ -9,11 +9,9 @@ import (
 	"testing"
 )
 
-
 type Reporter interface {
 	Error(message string)
 }
-
 
 type specReporter struct {
 	out      Reporter
@@ -44,7 +42,6 @@ func indent(spec *aSpec) string {
 	}
 	return s
 }
-
 
 type gotestReporter struct {
 	t *testing.T

@@ -9,7 +9,6 @@ import (
 	"testing"
 )
 
-
 func Test__The_names_of_parent_specs_are_reported_on_failure(t *testing.T) {
 	tt := TT(t)
 
@@ -32,7 +31,6 @@ FooSpec
 }
 
 var trim = strings.TrimSpace
-
 
 type DummyReporter struct {
 	Message string

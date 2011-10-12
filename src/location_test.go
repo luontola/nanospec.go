@@ -9,14 +9,13 @@ import (
 	"testing"
 )
 
-
 func Test__Get_location_of_calling_method(t *testing.T) {
 	tt := TT(t)
 
-	location := fakeExpectationMethod() // line 16
+	location := fakeExpectationMethod() // line 15
 
 	parts := strings.Split(location, "/")
-	tt.AssertEquals("location_test.go:16", parts[len(parts)-1])
+	tt.AssertEquals("location_test.go:15", parts[len(parts)-1])
 }
 
 func fakeExpectationMethod() string {

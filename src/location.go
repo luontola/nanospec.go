@@ -10,7 +10,6 @@ import (
 	"runtime"
 )
 
-
 func callerLocation() string {
 	if _, file, line, ok := runtime.Caller(2); ok {
 		return fmt.Sprintf("%v:%v", file, line)

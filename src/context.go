@@ -5,11 +5,9 @@
 package nanospec
 
 import (
-	"container/vector"
 	"fmt"
 	"testing"
 )
-
 
 func Run(gotest *testing.T, spec func(Context)) {
 	c := newContext(gotest, spec)
@@ -21,7 +19,6 @@ type Context interface {
 	Expect(actual interface{}) *Expectation
 	Errorf(format string, args ...interface{})
 }
-
 
 type runContext struct {
 	out          Reporter
@@ -80,13 +77,13 @@ func (this *runContext) Errorf(format string, args ...interface{}) {
 type aSpec struct {
 	Parent                *aSpec
 	Name                  string
-	children              *vector.Vector
+	children              []*aSpec
 	childrenSeenOnThisRun int
 	hasBeenFullyExecuted  bool
 }
 
 func newSpec(parent *aSpec, name string) *aSpec {
-	return &aSpec{parent, name, new(vector.Vector), 0, false}
+	return &aSpec{parent, name, make([]*aSpec, 0), 0, false}
 }
 
 func (this *aSpec) ShouldExecute() bool {
@@ -102,8 +99,7 @@ func (this *aSpec) Execute(closure func()) {
 }
 
 func (this *aSpec) allChildrenHaveBeenExecuted() bool {
-	for _, v := range *this.children {
-		child := v.(*aSpec)
+	for _, child := range this.children {
 		if !child.hasBeenFullyExecuted {
 			return false
 		}
@@ -115,13 +111,13 @@ func (this *aSpec) EnterChild(name string) *aSpec {
 	this.childrenSeenOnThisRun++
 	childIndex := this.childrenSeenOnThisRun - 1
 
-	isUnseen := childIndex >= this.children.Len()
+	isUnseen := childIndex >= len(this.children)
 	if isUnseen {
 		child := newSpec(this, name)
-		this.children.Push(child)
+		this.children = append(this.children, child)
 		return child
 	}
 
-	child := this.children.At(childIndex).(*aSpec)
+	child := this.children[childIndex]
 	return child
 }
