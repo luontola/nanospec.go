@@ -5,8 +5,8 @@
 package nanospec
 
 import (
+	"errors"
 	"fmt"
-	"os"
 	"testing"
 )
 
@@ -87,9 +87,9 @@ func Test__Expect_Matches(t *testing.T) {
 }
 
 func HasLength(length int) Matcher {
-	return func(actual interface{}) os.Error {
+	return func(actual interface{}) error {
 		if len(actual.(string)) != length {
-			return os.NewError(fmt.Sprintf("Expected: has length %v\n\tgot: '%v'", length, actual))
+			return errors.New(fmt.Sprintf("Expected: has length %v\n\tgot: '%v'", length, actual))
 		}
 		return nil
 	}

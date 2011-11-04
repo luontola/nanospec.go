@@ -4,10 +4,7 @@
 
 package nanospec
 
-import (
-	"fmt"
-	"os"
-)
+import "fmt"
 
 type Expectation struct {
 	actual   interface{}
@@ -51,8 +48,8 @@ func (this *Expectation) Satisfies(contract bool) {
 func (this *Expectation) Matches(matcher Matcher) {
 	err := matcher(this.actual)
 	if err != nil {
-		this.reporter.Error(err.String())
+		this.reporter.Error(err.Error())
 	}
 }
 
-type Matcher func(actual interface{}) os.Error
+type Matcher func(actual interface{}) error
