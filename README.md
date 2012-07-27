@@ -14,7 +14,7 @@ Quick Start
 
 Have a look at [nanospec_example_test.go] and how [GoSpec](http://github.com/orfjackal/gospec) uses this framework and read the source code. This framework is not meant for beginners, but for testing framework developers. This can be used as a library in other testing frameworks for Go, or as an reference implementation of how to create a similar testing framework for some other language.
 
-[nanospec_example_test.go]: http://github.com/orfjackal/nanospec.go/blob/master/src/nanospec_example_test.go
+[nanospec_example_test.go]: https://github.com/orfjackal/nanospec.go/blob/master/src/nanospec/nanospec_example_test.go
 
 
 Version History
